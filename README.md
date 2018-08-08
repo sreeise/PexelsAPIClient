@@ -60,7 +60,7 @@ PhotoAPI.search("mountains", 10, 1).then((photos) => {
 });
 ```
 
-// Set your own options in the request:
+Set your own options in the request:
 
 ```
 let options = { ... }
