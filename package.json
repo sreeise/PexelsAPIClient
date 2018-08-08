@@ -1,0 +1,23 @@
+{
+  "name": "pexelsapiclient",
+  "version": "1.0.0",
+  "description": "Client for Pexels API",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sreeise/PexelsAPIClient.git"
+  },
+  "author": "sreeise",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sreeise/PexelsAPIClient/issues"
+  },
+  "homepage": "https://github.com/sreeise/PexelsAPIClient#readme",
+  "dependencies": {
+    "dotenv": "^6.0.0",
+    "request": "^2.87.0"
+  }
+}
