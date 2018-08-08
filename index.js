@@ -1,3 +1,3 @@
 let PhotoAPI = require("./modules/PhotoAPI");
 
-exports = PhotoAPI;
+module.exports = PhotoAPI;
