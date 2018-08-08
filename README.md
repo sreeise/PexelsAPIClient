@@ -1,6 +1,15 @@
 # PexelsAPIClient
 JavaScript Client for the Pexels API (pexels.com)
 
+```
+npm install pexels-api-client --save
+```
+
+```
+let PhotoAPI = require('pexels-api-client')
+```
+
+
 Implements several methods for using the pexels API
 
 Provides methods for popular searches that are a subset of popular searches
