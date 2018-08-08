@@ -3,31 +3,66 @@ JavaScript Client for the Pexels API (pexels.com)
 
 Implements several methods for using the pexels API
 
-
-Most popular searches can be found in the client. These
-are listed here:
+Provides methods for popular searches that are a subset of popular searches
+found on pexels.com:
 
 https://www.pexels.com/popular-searches/
 
-You can also do a default search and get the curated photos.
+You can also get curated photos.
+
+### Configuration:
+
+Create a .env file in your route directory and enter your
+pexels api key for a variable titled: PexelsAPIKey
+
+All methods return a promise.
 
 Default port used is 443. These options
 can be changed on every function by providing an options
-object in the form of 
+object in the parameter written in the form of 
 
-<code>
-
-    {
+```
+   {
         url: ...
         port ...
         headers {
             "Authorization": process.env.PexelsAPIKey
         }
-       }
-</code>
+   }
+```
 
 
-Configuration:
+### examples: 
 
-Create a .env file in your route directory and enter your
-pexels api key for a variable titled: PexelsAPIKey
+```
+// curated
+PhotoAPI.getCurated().then((photos) => {
+    console.log(photos);
+});
+```
+
+
+Searching:
+
+```
+// parameters: type, photo amount, page
+PhotoAPI.search("mountains", 10, 1).then((photos) => {
+    console.log(photos);
+});
+```
+
+// Set your own options in the request:
+
+```
+let options = { ... }
+
+PhotoAPI.getCurated(options).then((photos) => {
+    console.log(photos)
+});
+
+// For searching:
+// parameters: type, photo amount, page, options
+PhotoAPI.search("mountains", 10, 1, options).then((photos) => {
+    console.log(photos);
+});
+```

@@ -1,5 +1,5 @@
 {
-  "name": "pexelsapiclient",
+  "name": "pexels-api-client",
   "version": "1.0.0",
   "description": "Client for Pexels API",
   "main": "index.js",
