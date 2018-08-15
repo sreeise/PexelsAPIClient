@@ -62,3 +62,6 @@ typings/
 
 # Jetbrains
 \.idea/
+
+# node_modules for testing
+node_modules

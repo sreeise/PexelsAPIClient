@@ -1,3 +1,6 @@
+/*eslint global-require: "error"*/
+/*eslint-env es6*/
+
 require('dotenv').config();
 let request = require("request");
 
@@ -11,7 +14,7 @@ function getAuthorizationOptions() {
     headers: {
       Authorization: process.env.PexelsAPIKey
     }
-  }
+  };
 }
 
 function genericSearch(url, options) {
@@ -38,30 +41,30 @@ function formURL(type, perPage, page) {
 let PhotoAPI = {
 
   search(type, perPage, page, requestOptions) {
-  return new Promise((resolve, reject) => {
-    let options;
+    return new Promise((resolve, reject) => {
+      let options;
 
-    if (!requestOptions) {
-      options = getAuthorizationOptions();
-    } else {
-      options = requestOptions;
-    }
-
-    let url = formURL(type, perPage, page);
-
-    request(url, options, function (error, response, body) {
-      if (error) {
-        reject(error && response && response.statusCode);
-        return;
-      }
-
-      if (response.statusCode === 200) {
-        resolve(body);
+      if (!requestOptions) {
+        options = getAuthorizationOptions();
       } else {
-        reject(response && response.statusCode);
+        options = requestOptions;
       }
+
+      let url = formURL(type, perPage, page);
+
+      request(url, options, function (error, response, body) {
+        if (error) {
+          reject(error && response && response.statusCode);
+          return;
+        }
+
+        if (response.statusCode === 200) {
+          resolve(body);
+        } else {
+          reject(response && response.statusCode);
+        }
+      });
     });
-  });
   },
 
   getCurated(requestOptions) {
@@ -107,7 +110,7 @@ let PhotoAPI = {
         resolve(photos);
       }).catch((error) => {
         reject(error);
-      })
+      });
     });
   },
 
@@ -128,7 +131,7 @@ let PhotoAPI = {
         resolve(photos);
       }).catch((error) => {
         reject(error);
-      })
+      });
     });
   },
 
@@ -148,7 +151,7 @@ let PhotoAPI = {
         resolve(photos);
       }).catch((error) => {
         reject(error);
-      })
+      });
     });
   },
 
@@ -168,7 +171,7 @@ let PhotoAPI = {
         resolve(photos);
       }).catch((error) => {
         reject(error);
-      })
+      });
     });
   },
 
@@ -188,7 +191,7 @@ let PhotoAPI = {
         resolve(photos);
       }).catch((error) => {
         reject(error);
-      })
+      });
     });
   },
 
@@ -208,7 +211,7 @@ let PhotoAPI = {
         resolve(photos);
       }).catch((error) => {
         reject(error);
-      })
+      });
     });
   },
 
@@ -228,7 +231,7 @@ let PhotoAPI = {
         resolve(photos);
       }).catch((error) => {
         reject(error);
-      })
+      });
     });
   },
 
@@ -248,7 +251,7 @@ let PhotoAPI = {
         resolve(photos);
       }).catch((error) => {
         reject(error);
-      })
+      });
     });
   },
 
@@ -268,7 +271,7 @@ let PhotoAPI = {
         resolve(photos);
       }).catch((error) => {
         reject(error);
-      })
+      });
     });
   },
 
@@ -288,7 +291,7 @@ let PhotoAPI = {
         resolve(photos);
       }).catch((error) => {
         reject(error);
-      })
+      });
     });
   },
 
@@ -308,7 +311,7 @@ let PhotoAPI = {
         resolve(photos);
       }).catch((error) => {
         reject(error);
-      })
+      });
     });
   },
 
@@ -328,7 +331,7 @@ let PhotoAPI = {
         resolve(photos);
       }).catch((error) => {
         reject(error);
-      })
+      });
     });
   },
 
@@ -348,7 +351,7 @@ let PhotoAPI = {
         resolve(photos);
       }).catch((error) => {
         reject(error);
-      })
+      });
     });
   },
 
@@ -368,7 +371,7 @@ let PhotoAPI = {
         resolve(photos);
       }).catch((error) => {
         reject(error);
-      })
+      });
     });
   },
 
@@ -388,7 +391,7 @@ let PhotoAPI = {
         resolve(photos);
       }).catch((error) => {
         reject(error);
-      })
+      });
     });
   },
 
@@ -408,7 +411,7 @@ let PhotoAPI = {
         resolve(photos);
       }).catch((error) => {
         reject(error);
-      })
+      });
     });
   },
 
@@ -428,7 +431,7 @@ let PhotoAPI = {
         resolve(photos);
       }).catch((error) => {
         reject(error);
-      })
+      });
     });
   },
 
@@ -448,7 +451,7 @@ let PhotoAPI = {
         resolve(photos);
       }).catch((error) => {
         reject(error);
-      })
+      });
     });
   },
 
@@ -468,7 +471,7 @@ let PhotoAPI = {
         resolve(photos);
       }).catch((error) => {
         reject(error);
-      })
+      });
     });
   },
 
@@ -488,7 +491,7 @@ let PhotoAPI = {
         resolve(photos);
       }).catch((error) => {
         reject(error);
-      })
+      });
     });
   },
 
@@ -508,7 +511,7 @@ let PhotoAPI = {
         resolve(photos);
       }).catch((error) => {
         reject(error);
-      })
+      });
     });
   },
 
@@ -528,7 +531,7 @@ let PhotoAPI = {
         resolve(photos);
       }).catch((error) => {
         reject(error);
-      })
+      });
     });
   },
 
@@ -548,7 +551,7 @@ let PhotoAPI = {
         resolve(photos);
       }).catch((error) => {
         reject(error);
-      })
+      });
     });
   },
 
@@ -568,7 +571,7 @@ let PhotoAPI = {
         resolve(photos);
       }).catch((error) => {
         reject(error);
-      })
+      });
     });
   },
 
@@ -588,7 +591,7 @@ let PhotoAPI = {
         resolve(photos);
       }).catch((error) => {
         reject(error);
-      })
+      });
     });
   },
 
@@ -609,7 +612,7 @@ let PhotoAPI = {
         resolve(photos);
       }).catch((error) => {
         reject(error);
-      })
+      });
     });
   },
 
@@ -629,7 +632,7 @@ let PhotoAPI = {
         resolve(photos);
       }).catch((error) => {
         reject(error);
-      })
+      });
     });
   },
 
@@ -649,7 +652,7 @@ let PhotoAPI = {
         resolve(photos);
       }).catch((error) => {
         reject(error);
-      })
+      });
     });
   },
 
@@ -669,7 +672,7 @@ let PhotoAPI = {
         resolve(photos);
       }).catch((error) => {
         reject(error);
-      })
+      });
     });
   },
 
@@ -689,7 +692,7 @@ let PhotoAPI = {
         resolve(photos);
       }).catch((error) => {
         reject(error);
-      })
+      });
     });
   },
 
@@ -709,7 +712,7 @@ let PhotoAPI = {
         resolve(photos);
       }).catch((error) => {
         reject(error);
-      })
+      });
     });
   },
 
@@ -729,7 +732,7 @@ let PhotoAPI = {
         resolve(photos);
       }).catch((error) => {
         reject(error);
-      })
+      });
     });
   },
 
@@ -749,7 +752,7 @@ let PhotoAPI = {
         resolve(photos);
       }).catch((error) => {
         reject(error);
-      })
+      });
     });
   },
 };
