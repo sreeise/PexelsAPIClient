@@ -596,7 +596,7 @@ let PhotoAPI = {
   },
 
 
-  getMeetinging(requestOptions) {
+  getMeeting(requestOptions) {
     return new Promise((resolve, reject) => {
       let options;
 
