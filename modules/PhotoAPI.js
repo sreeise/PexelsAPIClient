@@ -38,7 +38,28 @@ function formURL(type, perPage, page) {
   return `${base_url}search?query=${type}&per_page=${perPage}$page=${page}`;
 }
 
+function formQueryOptions(queryOptions) {
+
+  if (queryOptions.perPage === null || queryOptions.perPage === undefined) {
+    queryOptions.perPage = 15;
+  }
+
+  if (queryOptions.page === null || queryOptions.page === undefined) {
+    queryOptions.page = 1;
+  }
+  return queryOptions;
+}
+
 let PhotoAPI = {
+  searchFor(url, options) {
+    return new Promise((resolve, reject) => {
+      genericSearch(url, options).then((photos) => {
+        resolve(photos);
+      }).catch((error) => {
+        reject(error);
+      });
+    });
+  },
 
   search(type, perPage, page, requestOptions) {
     return new Promise((resolve, reject) => {
@@ -52,17 +73,10 @@ let PhotoAPI = {
 
       let url = formURL(type, perPage, page);
 
-      request(url, options, function (error, response, body) {
-        if (error) {
-          reject(error && response && response.statusCode);
-          return;
-        }
-
-        if (response.statusCode === 200) {
-          resolve(body);
-        } else {
-          reject(response && response.statusCode);
-        }
+      genericSearch(url, options).then((photos) => {
+        resolve(photos);
+      }).catch((error) => {
+        reject(error);
       });
     });
   },
@@ -79,17 +93,31 @@ let PhotoAPI = {
 
       let url = base_url + curated;
 
-      request(url, options, function (error, response, body) {
-        if (error) {
-          reject(error && response && response.statusCode);
-          return;
-        }
+      genericSearch(url, options).then((photos) => {
+        resolve(photos);
+      }).catch((error) => {
+        reject(error);
+      });
+    });
+  },
 
-        if (response.statusCode === 200) {
-          resolve(body);
-        } else {
-          reject(response && response.statusCode);
-        }
+  queryCurated(queryOptions, requestOptions) {
+    return new Promise((resolve, reject) => {
+      let options;
+
+      if (!requestOptions) {
+        options = getAuthorizationOptions();
+      } else {
+        options = requestOptions;
+      }
+
+      queryOptions = formQueryOptions(queryOptions);
+      let url = `${base_url}curated?per_page=${queryOptions.perPage}&page=${queryOptions.page}`;
+
+      genericSearch(url, options).then((photos) => {
+        resolve(photos);
+      }).catch((error) => {
+        reject(error);
       });
     });
   },
@@ -114,6 +142,26 @@ let PhotoAPI = {
     });
   },
 
+  queryMobile(queryOptions, requestOptions) {
+    return new Promise((resolve, reject) => {
+      let options;
+
+      if (!requestOptions) {
+        options = getAuthorizationOptions();
+      } else {
+        options = requestOptions;
+      }
+
+      queryOptions = formQueryOptions(queryOptions);
+      let url = formURL("mobile", queryOptions.perPage, queryOptions.page);
+
+      genericSearch(url, options).then((photos) => {
+        resolve(photos);
+      }).catch((error) => {
+        reject(error);
+      });
+    });
+  },
 
   getMoney(requestOptions) {
     return new Promise((resolve, reject) => {
@@ -126,6 +174,28 @@ let PhotoAPI = {
       }
 
       let url = formURL("money", 20, 1);
+
+      genericSearch(url, options).then((photos) => {
+        resolve(photos);
+      }).catch((error) => {
+        reject(error);
+      });
+    });
+  },
+
+  queryMoney(queryOptions, requestOptions) {
+    return new Promise((resolve, reject) => {
+      let options;
+
+      if (!requestOptions) {
+        options = getAuthorizationOptions();
+      } else {
+        options = requestOptions;
+      }
+
+      queryOptions = formQueryOptions(queryOptions);
+
+      let url = formURL("money", queryOptions.perPage, queryOptions.page);
 
       genericSearch(url, options).then((photos) => {
         resolve(photos);
@@ -155,6 +225,27 @@ let PhotoAPI = {
     });
   },
 
+  queryCreative(queryOptions, requestOptions) {
+    return new Promise((resolve, reject) => {
+      let options;
+
+      if (!requestOptions) {
+        options = getAuthorizationOptions();
+      } else {
+        options = requestOptions;
+      }
+
+      queryOptions = formQueryOptions(queryOptions);
+      let url = formURL("creative", queryOptions.perPage, queryOptions.page);
+
+      genericSearch(url, options).then((photos) => {
+        resolve(photos);
+      }).catch((error) => {
+        reject(error);
+      });
+    });
+  },
+
   getWriting(requestOptions) {
     return new Promise((resolve, reject) => {
       let options;
@@ -166,6 +257,27 @@ let PhotoAPI = {
       }
 
       let url = formURL("writing", 20, 1);
+
+      genericSearch(url, options).then((photos) => {
+        resolve(photos);
+      }).catch((error) => {
+        reject(error);
+      });
+    });
+  },
+
+  queryWriting(queryOptions, requestOptions) {
+    return new Promise((resolve, reject) => {
+      let options;
+
+      if (!requestOptions) {
+        options = getAuthorizationOptions();
+      } else {
+        options = requestOptions;
+      }
+
+      queryOptions = formQueryOptions(queryOptions);
+      let url = formURL("writing", queryOptions.perPage, queryOptions.page);
 
       genericSearch(url, options).then((photos) => {
         resolve(photos);
@@ -195,6 +307,27 @@ let PhotoAPI = {
     });
   },
 
+  queryWedding(queryOptions, requestOptions) {
+    return new Promise((resolve, reject) => {
+      let options;
+
+      if (!requestOptions) {
+        options = getAuthorizationOptions();
+      } else {
+        options = requestOptions;
+      }
+
+      queryOptions = formQueryOptions(queryOptions);
+      let url = formURL("wedding", queryOptions.perPage, queryOptions.page);
+
+      genericSearch(url, options).then((photos) => {
+        resolve(photos);
+      }).catch((error) => {
+        reject(error);
+      });
+    });
+  },
+
   getSummer(requestOptions) {
     return new Promise((resolve, reject) => {
       let options;
@@ -206,6 +339,27 @@ let PhotoAPI = {
       }
 
       let url = formURL("summer", 20, 1);
+
+      genericSearch(url, options).then((photos) => {
+        resolve(photos);
+      }).catch((error) => {
+        reject(error);
+      });
+    });
+  },
+
+  querySummer(queryOptions, requestOptions) {
+    return new Promise((resolve, reject) => {
+      let options;
+
+      if (!requestOptions) {
+        options = getAuthorizationOptions();
+      } else {
+        options = requestOptions;
+      }
+
+      queryOptions = formQueryOptions(queryOptions);
+      let url = formURL("summer", queryOptions.perPage, queryOptions.page);
 
       genericSearch(url, options).then((photos) => {
         resolve(photos);
@@ -235,6 +389,27 @@ let PhotoAPI = {
     });
   },
 
+  queryConstruction(queryOptions, requestOptions) {
+    return new Promise((resolve, reject) => {
+      let options;
+
+      if (!requestOptions) {
+        options = getAuthorizationOptions();
+      } else {
+        options = requestOptions;
+      }
+
+      queryOptions = formQueryOptions(queryOptions);
+      let url = formURL("construction", queryOptions.perPage, queryOptions.page);
+
+      genericSearch(url, options).then((photos) => {
+        resolve(photos);
+      }).catch((error) => {
+        reject(error);
+      });
+    });
+  },
+
   getWall(requestOptions) {
     return new Promise((resolve, reject) => {
       let options;
@@ -246,6 +421,27 @@ let PhotoAPI = {
       }
 
       let url = formURL("wall", 20, 1);
+
+      genericSearch(url, options).then((photos) => {
+        resolve(photos);
+      }).catch((error) => {
+        reject(error);
+      });
+    });
+  },
+
+  queryWall(queryOptions, requestOptions) {
+    return new Promise((resolve, reject) => {
+      let options;
+
+      if (!requestOptions) {
+        options = getAuthorizationOptions();
+      } else {
+        options = requestOptions;
+      }
+
+      queryOptions = formQueryOptions(queryOptions);
+      let url = formURL("wall", queryOptions.perPage, queryOptions.page);
 
       genericSearch(url, options).then((photos) => {
         resolve(photos);
@@ -275,6 +471,27 @@ let PhotoAPI = {
     });
   },
 
+  queryWood(queryOptions, requestOptions) {
+    return new Promise((resolve, reject) => {
+      let options;
+
+      if (!requestOptions) {
+        options = getAuthorizationOptions();
+      } else {
+        options = requestOptions;
+      }
+
+      queryOptions = formQueryOptions(queryOptions);
+      let url = formURL("wood", queryOptions.perPage, queryOptions.page);
+
+      genericSearch(url, options).then((photos) => {
+        resolve(photos);
+      }).catch((error) => {
+        reject(error);
+      });
+    });
+  },
+
   getPaint(requestOptions) {
     return new Promise((resolve, reject) => {
       let options;
@@ -286,6 +503,27 @@ let PhotoAPI = {
       }
 
       let url = formURL("paint", 20, 1);
+
+      genericSearch(url, options).then((photos) => {
+        resolve(photos);
+      }).catch((error) => {
+        reject(error);
+      });
+    });
+  },
+
+  queryPaint(queryOptions, requestOptions) {
+    return new Promise((resolve, reject) => {
+      let options;
+
+      if (!requestOptions) {
+        options = getAuthorizationOptions();
+      } else {
+        options = requestOptions;
+      }
+
+      queryOptions = formQueryOptions(queryOptions);
+      let url = formURL("paint", queryOptions.perPage, queryOptions.page);
 
       genericSearch(url, options).then((photos) => {
         resolve(photos);
@@ -315,6 +553,27 @@ let PhotoAPI = {
     });
   },
 
+  queryBooks(queryOptions, requestOptions) {
+    return new Promise((resolve, reject) => {
+      let options;
+
+      if (!requestOptions) {
+        options = getAuthorizationOptions();
+      } else {
+        options = requestOptions;
+      }
+
+      queryOptions = formQueryOptions(queryOptions);
+      let url = formURL("books", queryOptions.perPage, queryOptions.page);
+
+      genericSearch(url, options).then((photos) => {
+        resolve(photos);
+      }).catch((error) => {
+        reject(error);
+      });
+    });
+  },
+
   getStreet(requestOptions) {
     return new Promise((resolve, reject) => {
       let options;
@@ -326,6 +585,27 @@ let PhotoAPI = {
       }
 
       let url = formURL("street", 20, 1);
+
+      genericSearch(url, options).then((photos) => {
+        resolve(photos);
+      }).catch((error) => {
+        reject(error);
+      });
+    });
+  },
+
+  queryStreet(queryOptions, requestOptions) {
+    return new Promise((resolve, reject) => {
+      let options;
+
+      if (!requestOptions) {
+        options = getAuthorizationOptions();
+      } else {
+        options = requestOptions;
+      }
+
+      queryOptions = formQueryOptions(queryOptions);
+      let url = formURL("street", queryOptions.perPage, queryOptions.page);
 
       genericSearch(url, options).then((photos) => {
         resolve(photos);
@@ -355,6 +635,27 @@ let PhotoAPI = {
     });
   },
 
+  queryLaptop(queryOptions, requestOptions) {
+    return new Promise((resolve, reject) => {
+      let options;
+
+      if (!requestOptions) {
+        options = getAuthorizationOptions();
+      } else {
+        options = requestOptions;
+      }
+
+      queryOptions = formQueryOptions(queryOptions);
+      let url = formURL("laptop", queryOptions.perPage, queryOptions.page);
+
+      genericSearch(url, options).then((photos) => {
+        resolve(photos);
+      }).catch((error) => {
+        reject(error);
+      });
+    });
+  },
+
   getSunset(requestOptions) {
     return new Promise((resolve, reject) => {
       let options;
@@ -366,6 +667,27 @@ let PhotoAPI = {
       }
 
       let url = formURL("sunset", 20, 1);
+
+      genericSearch(url, options).then((photos) => {
+        resolve(photos);
+      }).catch((error) => {
+        reject(error);
+      });
+    });
+  },
+
+  querySunset(queryOptions, requestOptions) {
+    return new Promise((resolve, reject) => {
+      let options;
+
+      if (!requestOptions) {
+        options = getAuthorizationOptions();
+      } else {
+        options = requestOptions;
+      }
+
+      queryOptions = formQueryOptions(queryOptions);
+      let url = formURL("Sunset", queryOptions.perPage, queryOptions.page);
 
       genericSearch(url, options).then((photos) => {
         resolve(photos);
@@ -395,6 +717,27 @@ let PhotoAPI = {
     });
   },
 
+  queryKids(queryOptions, requestOptions) {
+    return new Promise((resolve, reject) => {
+      let options;
+
+      if (!requestOptions) {
+        options = getAuthorizationOptions();
+      } else {
+        options = requestOptions;
+      }
+
+      queryOptions = formQueryOptions(queryOptions);
+      let url = formURL("kids", queryOptions.perPage, queryOptions.page);
+
+      genericSearch(url, options).then((photos) => {
+        resolve(photos);
+      }).catch((error) => {
+        reject(error);
+      });
+    });
+  },
+
   getCouple(requestOptions) {
     return new Promise((resolve, reject) => {
       let options;
@@ -406,6 +749,27 @@ let PhotoAPI = {
       }
 
       let url = formURL("couple", 20, 1);
+
+      genericSearch(url, options).then((photos) => {
+        resolve(photos);
+      }).catch((error) => {
+        reject(error);
+      });
+    });
+  },
+
+  queryCouple(queryOptions, requestOptions) {
+    return new Promise((resolve, reject) => {
+      let options;
+
+      if (!requestOptions) {
+        options = getAuthorizationOptions();
+      } else {
+        options = requestOptions;
+      }
+
+      queryOptions = formQueryOptions(queryOptions);
+      let url = formURL("couple", queryOptions.perPage, queryOptions.page);
 
       genericSearch(url, options).then((photos) => {
         resolve(photos);
@@ -435,6 +799,27 @@ let PhotoAPI = {
     });
   },
 
+  queryDesert(queryOptions, requestOptions) {
+    return new Promise((resolve, reject) => {
+      let options;
+
+      if (!requestOptions) {
+        options = getAuthorizationOptions();
+      } else {
+        options = requestOptions;
+      }
+
+      queryOptions = formQueryOptions(queryOptions);
+      let url = formURL("desert", queryOptions.perPage, queryOptions.page);
+
+      genericSearch(url, options).then((photos) => {
+        resolve(photos);
+      }).catch((error) => {
+        reject(error);
+      });
+    });
+  },
+
   getStudent(requestOptions) {
     return new Promise((resolve, reject) => {
       let options;
@@ -446,6 +831,27 @@ let PhotoAPI = {
       }
 
       let url = formURL("student", 20, 1);
+
+      genericSearch(url, options).then((photos) => {
+        resolve(photos);
+      }).catch((error) => {
+        reject(error);
+      });
+    });
+  },
+
+  queryStudent(queryOptions, requestOptions) {
+    return new Promise((resolve, reject) => {
+      let options;
+
+      if (!requestOptions) {
+        options = getAuthorizationOptions();
+      } else {
+        options = requestOptions;
+      }
+
+      queryOptions = formQueryOptions(queryOptions);
+      let url = formURL("student", queryOptions.perPage, queryOptions.page);
 
       genericSearch(url, options).then((photos) => {
         resolve(photos);
@@ -475,6 +881,27 @@ let PhotoAPI = {
     });
   },
 
+  queryBeach(queryOptions, requestOptions) {
+    return new Promise((resolve, reject) => {
+      let options;
+
+      if (!requestOptions) {
+        options = getAuthorizationOptions();
+      } else {
+        options = requestOptions;
+      }
+
+      queryOptions = formQueryOptions(queryOptions);
+      let url = formURL("beach", queryOptions.perPage, queryOptions.page);
+
+      genericSearch(url, options).then((photos) => {
+        resolve(photos);
+      }).catch((error) => {
+        reject(error);
+      });
+    });
+  },
+
   getSport(requestOptions) {
     return new Promise((resolve, reject) => {
       let options;
@@ -486,6 +913,27 @@ let PhotoAPI = {
       }
 
       let url = formURL("sport", 20, 1);
+
+      genericSearch(url, options).then((photos) => {
+        resolve(photos);
+      }).catch((error) => {
+        reject(error);
+      });
+    });
+  },
+
+  querySport(queryOptions, requestOptions) {
+    return new Promise((resolve, reject) => {
+      let options;
+
+      if (!requestOptions) {
+        options = getAuthorizationOptions();
+      } else {
+        options = requestOptions;
+      }
+
+      queryOptions = formQueryOptions(queryOptions);
+      let url = formURL("sport", queryOptions.perPage, queryOptions.page);
 
       genericSearch(url, options).then((photos) => {
         resolve(photos);
@@ -515,6 +963,27 @@ let PhotoAPI = {
     });
   },
 
+  querySad(queryOptions, requestOptions) {
+    return new Promise((resolve, reject) => {
+      let options;
+
+      if (!requestOptions) {
+        options = getAuthorizationOptions();
+      } else {
+        options = requestOptions;
+      }
+
+      queryOptions = formQueryOptions(queryOptions);
+      let url = formURL("sad", queryOptions.perPage, queryOptions.page);
+
+      genericSearch(url, options).then((photos) => {
+        resolve(photos);
+      }).catch((error) => {
+        reject(error);
+      });
+    });
+  },
+
   getModel(requestOptions) {
     return new Promise((resolve, reject) => {
       let options;
@@ -526,6 +995,27 @@ let PhotoAPI = {
       }
 
       let url = formURL("model", 20, 1);
+
+      genericSearch(url, options).then((photos) => {
+        resolve(photos);
+      }).catch((error) => {
+        reject(error);
+      });
+    });
+  },
+
+  queryModel(queryOptions, requestOptions) {
+    return new Promise((resolve, reject) => {
+      let options;
+
+      if (!requestOptions) {
+        options = getAuthorizationOptions();
+      } else {
+        options = requestOptions;
+      }
+
+      queryOptions = formQueryOptions(queryOptions);
+      let url = formURL("model", queryOptions.perPage, queryOptions.page);
 
       genericSearch(url, options).then((photos) => {
         resolve(photos);
@@ -555,6 +1045,27 @@ let PhotoAPI = {
     });
   },
 
+  queryGreen(queryOptions, requestOptions) {
+    return new Promise((resolve, reject) => {
+      let options;
+
+      if (!requestOptions) {
+        options = getAuthorizationOptions();
+      } else {
+        options = requestOptions;
+      }
+
+      queryOptions = formQueryOptions(queryOptions);
+      let url = formURL("green", queryOptions.perPage, queryOptions.page);
+
+      genericSearch(url, options).then((photos) => {
+        resolve(photos);
+      }).catch((error) => {
+        reject(error);
+      });
+    });
+  },
+
   getGrass(requestOptions) {
     return new Promise((resolve, reject) => {
       let options;
@@ -566,6 +1077,27 @@ let PhotoAPI = {
       }
 
       let url = formURL("grass", 20, 1);
+
+      genericSearch(url, options).then((photos) => {
+        resolve(photos);
+      }).catch((error) => {
+        reject(error);
+      });
+    });
+  },
+
+  queryGrass(queryOptions, requestOptions) {
+    return new Promise((resolve, reject) => {
+      let options;
+
+      if (!requestOptions) {
+        options = getAuthorizationOptions();
+      } else {
+        options = requestOptions;
+      }
+
+      queryOptions = formQueryOptions(queryOptions);
+      let url = formURL("grass", queryOptions.perPage, queryOptions.page);
 
       genericSearch(url, options).then((photos) => {
         resolve(photos);
@@ -595,6 +1127,26 @@ let PhotoAPI = {
     });
   },
 
+  queryMarketing(queryOptions, requestOptions) {
+    return new Promise((resolve, reject) => {
+      let options;
+
+      if (!requestOptions) {
+        options = getAuthorizationOptions();
+      } else {
+        options = requestOptions;
+      }
+
+      queryOptions = formQueryOptions(queryOptions);
+      let url = formURL("marketing", queryOptions.perPage, queryOptions.page);
+
+      genericSearch(url, options).then((photos) => {
+        resolve(photos);
+      }).catch((error) => {
+        reject(error);
+      });
+    });
+  },
 
   getMeeting(requestOptions) {
     return new Promise((resolve, reject) => {
@@ -607,6 +1159,27 @@ let PhotoAPI = {
       }
 
       let url = formURL("meeting", 20, 1);
+
+      genericSearch(url, options).then((photos) => {
+        resolve(photos);
+      }).catch((error) => {
+        reject(error);
+      });
+    });
+  },
+
+  queryMeeting(queryOptions, requestOptions) {
+    return new Promise((resolve, reject) => {
+      let options;
+
+      if (!requestOptions) {
+        options = getAuthorizationOptions();
+      } else {
+        options = requestOptions;
+      }
+
+      queryOptions = formQueryOptions(queryOptions);
+      let url = formURL("meeting", queryOptions.perPage, queryOptions.page);
 
       genericSearch(url, options).then((photos) => {
         resolve(photos);
@@ -636,6 +1209,27 @@ let PhotoAPI = {
     });
   },
 
+  queryHome(queryOptions, requestOptions) {
+    return new Promise((resolve, reject) => {
+      let options;
+
+      if (!requestOptions) {
+        options = getAuthorizationOptions();
+      } else {
+        options = requestOptions;
+      }
+
+      queryOptions = formQueryOptions(queryOptions);
+      let url = formURL("home", queryOptions.perPage, queryOptions.page);
+
+      genericSearch(url, options).then((photos) => {
+        resolve(photos);
+      }).catch((error) => {
+        reject(error);
+      });
+    });
+  },
+
   getFitness(requestOptions) {
     return new Promise((resolve, reject) => {
       let options;
@@ -647,6 +1241,27 @@ let PhotoAPI = {
       }
 
       let url = formURL("fitness", 20, 1);
+
+      genericSearch(url, options).then((photos) => {
+        resolve(photos);
+      }).catch((error) => {
+        reject(error);
+      });
+    });
+  },
+
+  queryFitness(queryOptions, requestOptions) {
+    return new Promise((resolve, reject) => {
+      let options;
+
+      if (!requestOptions) {
+        options = getAuthorizationOptions();
+      } else {
+        options = requestOptions;
+      }
+
+      queryOptions = formQueryOptions(queryOptions);
+      let url = formURL("fitness", queryOptions.perPage, queryOptions.page);
 
       genericSearch(url, options).then((photos) => {
         resolve(photos);
@@ -676,6 +1291,27 @@ let PhotoAPI = {
     });
   },
 
+  queryFashion(queryOptions, requestOptions) {
+    return new Promise((resolve, reject) => {
+      let options;
+
+      if (!requestOptions) {
+        options = getAuthorizationOptions();
+      } else {
+        options = requestOptions;
+      }
+
+      queryOptions = formQueryOptions(queryOptions);
+      let url = formURL("fashion", queryOptions.perPage, queryOptions.page);
+
+      genericSearch(url, options).then((photos) => {
+        resolve(photos);
+      }).catch((error) => {
+        reject(error);
+      });
+    });
+  },
+
   getMockup(requestOptions) {
     return new Promise((resolve, reject) => {
       let options;
@@ -687,6 +1323,27 @@ let PhotoAPI = {
       }
 
       let url = formURL("mockup", 20, 1);
+
+      genericSearch(url, options).then((photos) => {
+        resolve(photos);
+      }).catch((error) => {
+        reject(error);
+      });
+    });
+  },
+
+  queryMockup(queryOptions, requestOptions) {
+    return new Promise((resolve, reject) => {
+      let options;
+
+      if (!requestOptions) {
+        options = getAuthorizationOptions();
+      } else {
+        options = requestOptions;
+      }
+
+      queryOptions = formQueryOptions(queryOptions);
+      let url = formURL("mockup", queryOptions.perPage, queryOptions.page);
 
       genericSearch(url, options).then((photos) => {
         resolve(photos);
@@ -716,6 +1373,27 @@ let PhotoAPI = {
     });
   },
 
+  queryPerson(queryOptions, requestOptions) {
+    return new Promise((resolve, reject) => {
+      let options;
+
+      if (!requestOptions) {
+        options = getAuthorizationOptions();
+      } else {
+        options = requestOptions;
+      }
+
+      queryOptions = formQueryOptions(queryOptions);
+      let url = formURL("person", queryOptions.perPage, queryOptions.page);
+
+      genericSearch(url, options).then((photos) => {
+        resolve(photos);
+      }).catch((error) => {
+        reject(error);
+      });
+    });
+  },
+
   getPlane(requestOptions) {
     return new Promise((resolve, reject) => {
       let options;
@@ -736,6 +1414,27 @@ let PhotoAPI = {
     });
   },
 
+  queryPlane(queryOptions, requestOptions) {
+    return new Promise((resolve, reject) => {
+      let options;
+
+      if (!requestOptions) {
+        options = getAuthorizationOptions();
+      } else {
+        options = requestOptions;
+      }
+
+      queryOptions = formQueryOptions(queryOptions);
+      let url = formURL("plane", queryOptions.perPage, queryOptions.page);
+
+      genericSearch(url, options).then((photos) => {
+        resolve(photos);
+      }).catch((error) => {
+        reject(error);
+      });
+    });
+  },
+
   getAdventure(requestOptions) {
     return new Promise((resolve, reject) => {
       let options;
@@ -746,7 +1445,28 @@ let PhotoAPI = {
         options = requestOptions;
       }
 
-      let url = formURL("Adventure", 20, 1);
+      let url = formURL("adventure", 20, 1);
+
+      genericSearch(url, options).then((photos) => {
+        resolve(photos);
+      }).catch((error) => {
+        reject(error);
+      });
+    });
+  },
+
+  queryAdventure(queryOptions, requestOptions) {
+    return new Promise((resolve, reject) => {
+      let options;
+
+      if (!requestOptions) {
+        options = getAuthorizationOptions();
+      } else {
+        options = requestOptions;
+      }
+
+      queryOptions = formQueryOptions(queryOptions);
+      let url = formURL("adventure", queryOptions.perPage, queryOptions.page);
 
       genericSearch(url, options).then((photos) => {
         resolve(photos);
