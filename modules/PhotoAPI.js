@@ -35,7 +35,7 @@ function genericSearch(url, options) {
 }
 
 function formURL(type, perPage, page) {
-  return base_url + `search?query=${type}&per_page=${perPage}$page=${page}`;
+  return `${base_url}search?query=${type}&per_page=${perPage}$page=${page}`;
 }
 
 let PhotoAPI = {
