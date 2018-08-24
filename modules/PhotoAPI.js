@@ -34,10 +34,30 @@ function genericSearch(url, options) {
   });
 }
 
+/**
+ * Forms a search url based off of the given type, amount of photos perPage, and page
+ *
+ * @param type of photos to search for.
+ * @param perPage Amount of photos to get.
+ * @param page to get photos from.
+ * @returns {string}
+ */
 function formURL(type, perPage, page) {
   return `${base_url}search?query=${type}&per_page=${perPage}$page=${page}`;
 }
 
+/**
+ * Options for a query that allows setting the amount of photos per page,
+ * and the page to search for.
+ *
+ * perPage defaults to 15 if not specified.
+ * page defaults to 1 if not specified.
+ *
+ *
+ * @param queryOptions Object with page and perPage specified
+ * @returns {*} The same object that is checked for null or undefined and
+ *          sets values appropriately.
+ */
 function formQueryOptions(queryOptions) {
 
   if (queryOptions.perPage === null || queryOptions.perPage === undefined) {
@@ -50,9 +70,46 @@ function formQueryOptions(queryOptions) {
   return queryOptions;
 }
 
+
+/**
+ * Options for a query that allows searching by type, where type is the type of photos
+ * that the caller wants to search for, perPage is the amount of photos to get, and page is
+ * the page to get the photos from.
+ *
+ * If a type is not specified, it is set to null. Any function using this function
+ * to form a search url should check if type is null before attempting to use it.
+ *
+ * Amount of photos, perPage, defaults to 15 if not specified.
+ * The page to retrieve photos from defaults to 1 if not specified.
+ *
+ * @param queryOptions An object having three values of type, perPage, and page.
+ */
+function formQueryOptionsForType(queryOptions) {
+  if (queryOptions.type === null || queryOptions.type === undefined) {
+    queryOptions.type = null;
+  }
+
+  if (queryOptions.perPage === null || queryOptions.perPage === undefined) {
+    queryOptions.perPage = 15;
+  }
+
+  if (queryOptions.page === null || queryOptions.page === undefined) {
+    queryOptions.page = 1;
+  }
+  return queryOptions;
+}
+
 let PhotoAPI = {
-  searchFor(url, options) {
+  searchFor(url, requestOptions) {
     return new Promise((resolve, reject) => {
+      let options;
+
+      if (!requestOptions) {
+        options = getAuthorizationOptions();
+      } else {
+        options = requestOptions;
+      }
+
       genericSearch(url, options).then((photos) => {
         resolve(photos);
       }).catch((error) => {
@@ -72,6 +129,67 @@ let PhotoAPI = {
       }
 
       let url = formURL(type, perPage, page);
+
+      genericSearch(url, options).then((photos) => {
+        resolve(photos);
+      }).catch((error) => {
+        reject(error);
+      });
+    });
+  },
+
+  /**
+   * Allows specifying the url to search and the authorization key.
+   *
+   * @param url The Pexels API URL. This must be the complete URL such as
+   *        https://api.pexels.com/v1/curated?per_page=20&page=1
+   * @param key The Authorization key in the form of "Bearer <YOUR AUTHORIZATION KEY>"
+   * @returns {Promise<any>}
+   */
+  searchWithKey(url, key) {
+    return new Promise((resolve, reject) => {
+
+      let options = {
+        port: 443,
+        method: "GET",
+        headers: {
+          Authorization: key
+        }
+      };
+
+      genericSearch(url, options).then((photos) => {
+        resolve(photos);
+      }).catch((error) => {
+        reject(error);
+      });
+    });
+  },
+
+  /**
+   * Takes an object called queryOptions which should have
+   * type, perPage, and Page.
+   *
+   * type: The type of photos to search for.
+   * perPage: Amount of photos to get.
+   * page: The page to retrieve the photos from.
+   *
+   * @param queryOptions An object specifying type, perPage, and page.
+   * @param key
+   * @returns {Promise<any>}
+   */
+  queryWithKey(queryOptions, key) {
+    return new Promise((resolve, reject) => {
+
+      let options = {
+        port: 443,
+        method: "GET",
+        headers: {
+          Authorization: key
+        }
+      };
+
+      queryOptions = formQueryOptionsForType(queryOptions);
+      let url = formURL(queryOptions.type, queryOptions.perPage, queryOptions.page);
 
       genericSearch(url, options).then((photos) => {
         resolve(photos);
@@ -1475,6 +1593,334 @@ let PhotoAPI = {
       });
     });
   },
+
+  getTechnology(requestOptions) {
+    return new Promise((resolve, reject) => {
+      let options;
+
+      if (!requestOptions) {
+        options = getAuthorizationOptions();
+      } else {
+        options = requestOptions;
+      }
+
+      let url = formURL("technology", 20, 1);
+
+      genericSearch(url, options).then((photos) => {
+        resolve(photos);
+      }).catch((error) => {
+        reject(error);
+      });
+    });
+  },
+
+  queryTechnology(queryOptions, requestOptions) {
+    return new Promise((resolve, reject) => {
+      let options;
+
+      if (!requestOptions) {
+        options = getAuthorizationOptions();
+      } else {
+        options = requestOptions;
+      }
+
+      queryOptions = formQueryOptions(queryOptions);
+      let url = formURL("technology", queryOptions.perPage, queryOptions.page);
+
+      genericSearch(url, options).then((photos) => {
+        resolve(photos);
+      }).catch((error) => {
+        reject(error);
+      });
+    });
+  },
+
+  getOffice(requestOptions) {
+    return new Promise((resolve, reject) => {
+      let options;
+
+      if (!requestOptions) {
+        options = getAuthorizationOptions();
+      } else {
+        options = requestOptions;
+      }
+
+      let url = formURL("office", 20, 1);
+
+      genericSearch(url, options).then((photos) => {
+        resolve(photos);
+      }).catch((error) => {
+        reject(error);
+      });
+    });
+  },
+
+  queryOffice(queryOptions, requestOptions) {
+    return new Promise((resolve, reject) => {
+      let options;
+
+      if (!requestOptions) {
+        options = getAuthorizationOptions();
+      } else {
+        options = requestOptions;
+      }
+
+      queryOptions = formQueryOptions(queryOptions);
+      let url = formURL("office", queryOptions.perPage, queryOptions.page);
+
+      genericSearch(url, options).then((photos) => {
+        resolve(photos);
+      }).catch((error) => {
+        reject(error);
+      });
+    });
+  },
+
+  getIphone(requestOptions) {
+    return new Promise((resolve, reject) => {
+      let options;
+
+      if (!requestOptions) {
+        options = getAuthorizationOptions();
+      } else {
+        options = requestOptions;
+      }
+
+      let url = formURL("iphone", 20, 1);
+
+      genericSearch(url, options).then((photos) => {
+        resolve(photos);
+      }).catch((error) => {
+        reject(error);
+      });
+    });
+  },
+
+  queryIphone(queryOptions, requestOptions) {
+    return new Promise((resolve, reject) => {
+      let options;
+
+      if (!requestOptions) {
+        options = getAuthorizationOptions();
+      } else {
+        options = requestOptions;
+      }
+
+      queryOptions = formQueryOptions(queryOptions);
+      let url = formURL("iphone", queryOptions.perPage, queryOptions.page);
+
+      genericSearch(url, options).then((photos) => {
+        resolve(photos);
+      }).catch((error) => {
+        reject(error);
+      });
+    });
+  },
+
+  getYoga(requestOptions) {
+    return new Promise((resolve, reject) => {
+      let options;
+
+      if (!requestOptions) {
+        options = getAuthorizationOptions();
+      } else {
+        options = requestOptions;
+      }
+
+      let url = formURL("yoga", 20, 1);
+
+      genericSearch(url, options).then((photos) => {
+        resolve(photos);
+      }).catch((error) => {
+        reject(error);
+      });
+    });
+  },
+
+  queryYoga(queryOptions, requestOptions) {
+    return new Promise((resolve, reject) => {
+      let options;
+
+      if (!requestOptions) {
+        options = getAuthorizationOptions();
+      } else {
+        options = requestOptions;
+      }
+
+      queryOptions = formQueryOptions(queryOptions);
+      let url = formURL("yoga", queryOptions.perPage, queryOptions.page);
+
+      genericSearch(url, options).then((photos) => {
+        resolve(photos);
+      }).catch((error) => {
+        reject(error);
+      });
+    });
+  },
+
+  getGym(requestOptions) {
+    return new Promise((resolve, reject) => {
+      let options;
+
+      if (!requestOptions) {
+        options = getAuthorizationOptions();
+      } else {
+        options = requestOptions;
+      }
+
+      let url = formURL("gym", 20, 1);
+
+      genericSearch(url, options).then((photos) => {
+        resolve(photos);
+      }).catch((error) => {
+        reject(error);
+      });
+    });
+  },
+
+  queryGym(queryOptions, requestOptions) {
+    return new Promise((resolve, reject) => {
+      let options;
+
+      if (!requestOptions) {
+        options = getAuthorizationOptions();
+      } else {
+        options = requestOptions;
+      }
+
+      queryOptions = formQueryOptions(queryOptions);
+      let url = formURL("gym", queryOptions.perPage, queryOptions.page);
+
+      genericSearch(url, options).then((photos) => {
+        resolve(photos);
+      }).catch((error) => {
+        reject(error);
+      });
+    });
+  },
+
+  getAbstract(requestOptions) {
+    return new Promise((resolve, reject) => {
+      let options;
+
+      if (!requestOptions) {
+        options = getAuthorizationOptions();
+      } else {
+        options = requestOptions;
+      }
+
+      let url = formURL("abstract", 20, 1);
+
+      genericSearch(url, options).then((photos) => {
+        resolve(photos);
+      }).catch((error) => {
+        reject(error);
+      });
+    });
+  },
+
+  queryAbstract(queryOptions, requestOptions) {
+    return new Promise((resolve, reject) => {
+      let options;
+
+      if (!requestOptions) {
+        options = getAuthorizationOptions();
+      } else {
+        options = requestOptions;
+      }
+
+      queryOptions = formQueryOptions(queryOptions);
+      let url = formURL("abstract", queryOptions.perPage, queryOptions.page);
+
+      genericSearch(url, options).then((photos) => {
+        resolve(photos);
+      }).catch((error) => {
+        reject(error);
+      });
+    });
+  },
+
+  getComputer(requestOptions) {
+    return new Promise((resolve, reject) => {
+      let options;
+
+      if (!requestOptions) {
+        options = getAuthorizationOptions();
+      } else {
+        options = requestOptions;
+      }
+
+      let url = formURL("computer", 20, 1);
+
+      genericSearch(url, options).then((photos) => {
+        resolve(photos);
+      }).catch((error) => {
+        reject(error);
+      });
+    });
+  },
+
+  queryComputer(queryOptions, requestOptions) {
+    return new Promise((resolve, reject) => {
+      let options;
+
+      if (!requestOptions) {
+        options = getAuthorizationOptions();
+      } else {
+        options = requestOptions;
+      }
+
+      queryOptions = formQueryOptions(queryOptions);
+      let url = formURL("computer", queryOptions.perPage, queryOptions.page);
+
+      genericSearch(url, options).then((photos) => {
+        resolve(photos);
+      }).catch((error) => {
+        reject(error);
+      });
+    });
+  },
+
+  getIndustry(requestOptions) {
+    return new Promise((resolve, reject) => {
+      let options;
+
+      if (!requestOptions) {
+        options = getAuthorizationOptions();
+      } else {
+        options = requestOptions;
+      }
+
+      let url = formURL("industry", 20, 1);
+
+      genericSearch(url, options).then((photos) => {
+        resolve(photos);
+      }).catch((error) => {
+        reject(error);
+      });
+    });
+  },
+
+  queryIndustry(queryOptions, requestOptions) {
+    return new Promise((resolve, reject) => {
+      let options;
+
+      if (!requestOptions) {
+        options = getAuthorizationOptions();
+      } else {
+        options = requestOptions;
+      }
+
+      queryOptions = formQueryOptions(queryOptions);
+      let url = formURL("industry", queryOptions.perPage, queryOptions.page);
+
+      genericSearch(url, options).then((photos) => {
+        resolve(photos);
+      }).catch((error) => {
+        reject(error);
+      });
+    });
+  }
 };
 
 module.exports = PhotoAPI;

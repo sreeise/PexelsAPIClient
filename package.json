@@ -4,7 +4,7 @@
   "description": "Client for Pexels API",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "eslint ./modules/PhotoAPI.js"
   },
   "repository": {
     "type": "git",

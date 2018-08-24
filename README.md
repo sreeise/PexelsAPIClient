@@ -19,6 +19,18 @@ https://www.pexels.com/popular-searches/
 
 You can also get curated photos.
 
+All of the methods that are popular search methods have the type of photo
+in the name of the method and either start with 'get' or 'query' such as
+
+getCurated() or queryCurated()
+
+get methods are a simple query that always returns 20 photos from the 1st page.
+
+query methods allow defining options. See below for more info.
+
+If you are getting undefined for the results you most likely need to parse
+the returned photos object, i.e., JSON.parse(photos)
+
 ### Configuration:
 
 Create a .env file in your route directory and enter your
@@ -42,6 +54,8 @@ object in the parameter written in the form of
 
 
 ### examples: 
+
+Basic get method for popular searches.
 
 ```
 // curated
@@ -77,10 +91,7 @@ PhotoAPI.search("mountains", 10, 1, options).then((photos) => {
 ```
 
 
-### Only on GitHub until the next major release:
-
-
-### Recently released methods for amount of photos and what page to get photos from.
+### Methods starting with query
 
 Be aware that attempting to ask for more then 40 photos will always return a bad
 request as that is the max amount pexels.com allows for one call.
@@ -104,33 +115,79 @@ The second object is the options object mentioned above for changing the
 way the request is made.
 
 ```
-PhotoAPI.getAdventure(queryOptions, requestOptions).then((photos) => {
+PhotoAPI.queryAdventure(queryOptions, requestOptions).then((photos) => {
     console.log(photos)
-}
+});
 
 // Or 
 
-PhotoAPI.getAdventure(queryOptions).then((photos) => {
+PhotoAPI.queryAdventure({perPage: 15, page: 1}).then((photos) => {
     console.log(photos)
-}
-
-PhotoAPI.getAdventure({perPage: 15, page: 1}).then((photos) => {
-    console.log(photos)
-}
+});
 ```
 
 
-Right now, the query methods may cause a problem if you decide not
-to include a query options object.
+### Other search methods
+
+There are a couple of other search query method that allows defining what to search for as
+well as the authorization key.
+
+
+```
+searchWithKey(url, key)
+```
  
-however this:
+Where the url is the complete url for the pexels search such as
 
-    PhotoAPI.queryAdventure()
 
-Would be the exact same thing as this:
+    https://api.pexels.com/v1/curated?per_page=20&page=1
 
-    PhotoAPI.getAdventure()
-    
-Use the get methods for no params, not query.
+And The key is:
 
-This is temporary and will be fixed in future commits.
+    "Bearer YOUR_AUTHORIZATION_KEY"
+
+
+Note that it is never a good idea to put API keys in JavaScript, Always use
+an environment variable in production.
+
+Another search method:
+
+        queryWithKey(queryOptions, key)
+        
+        // Where queryOptions example is
+        {
+            type: "city"
+            perPage: 15,
+            page: 1,
+        }
+        
+        // And key is 
+        "Bearer YOUR_AUTHORIZATION_KEY"
+        
+        
+The only difference in this method is it allows you to set the type of search
+and the API key without having to specify an object for the request, but you
+do have to set the object for the query options.
+
+
+### Updates/changes from previous version
+
+1. Query Methods discussed above
+
+2. Added a few more popular searches:
+
+
+technology, office, iphone, yoga, gym, abstract, computer, industry
+
+3. Added more search methods discussed above
+
+
+### Minor breaking changes from last version
+
+There was a typo for the search of 'meeting'. It was spelled as
+
+getMeetinging()
+
+This has been changed to
+
+getMeeting()
