@@ -168,26 +168,3 @@ Another search method:
 The only difference in this method is it allows you to set the type of search
 and the API key without having to specify an object for the request, but you
 do have to set the object for the query options.
-
-
-### Updates/changes from previous version
-
-1. Query Methods discussed above
-
-2. Added a few more popular searches:
-
-
-technology, office, iphone, yoga, gym, abstract, computer, industry
-
-3. Added more search methods discussed above
-
-
-### Minor breaking changes from last version
-
-There was a typo for the search of 'meeting'. It was spelled as
-
-getMeetinging()
-
-This has been changed to
-
-getMeeting()
