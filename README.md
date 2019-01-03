@@ -1,4 +1,11 @@
-# PexelsAPIClient
+# PexelsAPIClient - ARCHIVED
+
+This project is archived. While the client may still be on NPM there will be no
+active work in the future.
+
+
+# Starting Out.
+
 JavaScript Client for the Pexels API (pexels.com)
 
 ```
